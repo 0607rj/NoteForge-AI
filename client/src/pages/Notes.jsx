@@ -8,7 +8,6 @@ import FinalResult from '../components/FinalResult'
 function Notes() {
   const navigate = useNavigate()
   const { userData } = useSelector((state) => state.user)
-  const credits = userData.credits
   const [loading,setLoading]= useState(false)
   const [result , setResult] = useState(null)
   const [error,setError] = useState("")
@@ -34,24 +33,6 @@ function Notes() {
           <p className='text-sm text-gray-300 mt-1'>AI-powered exam-oriented notes & revision</p></div>
 
         <div className='flex items-center gap-4 flex-wrap'>
-          <button className='flex items-center gap-2 
-    px-4 py-2 rounded-full
-    bg-white/10
-    border border-white/20
-    text-white text-sm' onClick={() => navigate("/pricing")}>
-            <span className='text-xl'>💠</span>
-            <span>{credits}</span>
-            <motion.span whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.97 }}
-              className='ml-2 h-5 w-5 flex items-center justify-center
-                        rounded-full bg-white  text-xs font-bold'
-            >
-              ➕
-
-            </motion.span>
-
-
-          </button>
           <button onClick={()=>navigate("/history")} className='px-4 py-3 rounded-full
       text-sm font-medium
       bg-white/10

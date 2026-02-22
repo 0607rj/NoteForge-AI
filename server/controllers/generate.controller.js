@@ -11,23 +11,13 @@ export const generateNotes = async (req, res) => {
             examType,
             revisionMode = false,
             includeDiagram = false,
-            includeChart = false
+            includeChart = false,
+            userId
         } = req.body;
         if (!topic) {
             return res.status(400).json({ message: "Topic is required" })
         }
-        const user = await UserModel.findById(req.userId)
-        if (!user) {
-            return res.status(400).json({ message: "user is not found" })
-        }
-
-        if (user.credits < 10) {
-            user.isCreditAvailable = false
-            await user.save()
-            return res.status(403).json({
-                message: "Insufficient credits"
-            });
-        }
+        const user = userId ? await UserModel.findById(userId) : null;
 
         const prompt = buildPrompt({
             topic,
@@ -43,7 +33,7 @@ export const generateNotes = async (req, res) => {
    
 
         const notes = await Notes.create({
-            user: user._id,
+            user: user?._id,
             topic,
             classLevel,
             examType,
@@ -55,22 +45,17 @@ export const generateNotes = async (req, res) => {
 
         })
 
-
-        user.credits -= 10;
-        if (user.credits <= 0) user.isCreditAvailable = false;
-
-        if (!Array.isArray(user.notes)) {
-            user.notes = [];
+        if (user) {
+            if (!Array.isArray(user.notes)) {
+                user.notes = [];
+            }
+            user.notes.push(notes._id);
+            await user.save();
         }
-
-        user.notes.push(notes._id);
-
-        await user.save();
 
         return res.status(200).json({
             data: aiResponse,
-      noteId: notes._id,
-      creditsLeft: user.credits
+            noteId: notes._id
         })
 
 

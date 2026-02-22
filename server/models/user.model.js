@@ -10,15 +10,6 @@ const userSchema = new mongoose.Schema({
         unique:true,
         required:true
     },
-    credits:{
-        type:Number,
-        default:50,
-        min:0
-    },
-    isCreditAvailable:{
-        type:Boolean,
-        default:true
-    },
     notes:{
         type:[mongoose.Schema.Types.ObjectId],
         ref:"Notes",

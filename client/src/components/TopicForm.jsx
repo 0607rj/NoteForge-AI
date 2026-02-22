@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from "motion/react"
 import { generateNotes } from '../services/api';
-import { useDispatch } from 'react-redux';
-import { updateCredits } from '../redux/userSlice';
+import { useSelector } from 'react-redux';
 function TopicForm({ setResult, setLoading, loading, setError }) {
   const [topic, setTopic] = useState("");
   const [classLevel, setClassLevel] = useState("");
@@ -12,7 +11,7 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
   const [includeChart, setIncludeChart] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState("");
-  const dispatch = useDispatch()
+  const { userData } = useSelector((state) => state.user);
 
   const handleSubmit = async () => {
     if (!topic.trim()) {
@@ -29,7 +28,8 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         examType,
         revisionMode,
         includeDiagram,
-        includeChart})
+        includeChart,
+        userId: userData?._id})
         setResult(result.data)
         setLoading(false)
         setClassLevel("")
@@ -38,11 +38,6 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         setIncludeChart(false)
         setRevisionMode(false)
         setIncludeDiagram(false)
-
-        if(typeof result.creditsLeft === "number"){
-          dispatch(updateCredits(result.creditsLeft));
-
-        }
 
 
     } catch (error) {

@@ -3,7 +3,11 @@ import Notes from "../models/notes.model.js"
 
 export const getMyNotes = async (req, res) => {
     try {
-        const notes = await Notes.find({ user: req.userId }).select("topic classLevel examType revisionMode includeDiagram includeChart createdAt").sort({ createdAt: -1 })
+        const userId = req.body.userId || req.query.userId;
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+        const notes = await Notes.find({ user: userId }).select("topic classLevel examType revisionMode includeDiagram includeChart createdAt").sort({ createdAt: -1 })
         if (!notes) {
             return res.status(404).json({
                 error: "Notes not found"
@@ -18,9 +22,10 @@ export const getMyNotes = async (req, res) => {
 
 export const getSingleNotes = async (req, res) => {
     try {
+        const userId = req.body.userId || req.query.userId;
         const notes = await Notes.findOne({
             _id: req.params.id,
-            user: req.userId
+            ...(userId && { user: userId })
         })
         if (!notes) {
             return res.status(404).json({

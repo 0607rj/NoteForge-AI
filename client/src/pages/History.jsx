@@ -11,7 +11,6 @@ function History() {
   const [topics, setTopics] = useState([])
    const navigate = useNavigate()
   const { userData } = useSelector((state) => state.user)
-  const credits = userData.credits
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 const [activeNoteId, setActiveNoteId] = useState(null);
 
@@ -20,7 +19,10 @@ const [activeNoteId, setActiveNoteId] = useState(null);
   useEffect(() => {
     const myNotes = async () => {
       try {
-        const res = await axios.get(serverUrl + "/api/notes/getnotes", { withCredentials: true })
+        const res = await axios.get(serverUrl + "/api/notes/getnotes", { 
+          withCredentials: true,
+          params: { userId: userData?._id }
+        })
         console.log(res.data)
         setTopics(Array.isArray(res.data) ? res.data : [])
 
@@ -28,14 +30,19 @@ const [activeNoteId, setActiveNoteId] = useState(null);
         console.log(error)
       }
     }
-    myNotes()
-  }, [])
+    if (userData?._id) {
+      myNotes()
+    }
+  }, [userData])
 
   const openNotes = async (noteId) => {
     setLoading(true)
     setActiveNoteId(noteId)
 try {
-  const res = await axios.get(serverUrl + `/api/notes/${noteId}`,{withCredentials:true})
+  const res = await axios.get(serverUrl + `/api/notes/${noteId}`,{
+    withCredentials:true,
+    params: { userId: userData?._id }
+  })
 
   setSelectedNote(res.data.content)
 setLoading(false)
@@ -83,24 +90,6 @@ setLoading(false)
               <div className='flex items-center gap-4 '>
 
                 {!isSidebarOpen && <button onClick={()=>setIsSidebarOpen(true)} className='lg:hidden text-white text-2xl'><GiHamburgerMenu/></button>}
-                <button className='flex items-center gap-2 
-          px-4 py-2 rounded-full
-          bg-white/10
-          border border-white/20
-          text-white text-sm' onClick={() => navigate("/pricing")}>
-                  <span className='text-xl'>💠</span>
-                  <span>{credits}</span>
-                  <motion.span whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.97 }}
-                    className='ml-2 h-5 w-5 flex items-center justify-center
-                              rounded-full bg-white  text-xs font-bold'
-                  >
-                    ➕
-      
-                  </motion.span>
-      
-      
-                </button>
                 
                 
               </div>
