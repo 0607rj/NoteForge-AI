@@ -128,18 +128,30 @@ function TopicForm({ setResult, setLoading, loading, setError }) {
         value={examType}
       />
 
-      <div className='flex flex-col md:flex-row gap-6'>
-        <Toggle label="Exam Revision Mode" checked={revisionMode} onChange={() => setRevisionMode(!revisionMode)} />
-        <Toggle
-          label="Include Diagram"
-          checked={includeDiagram}
-          onChange={() => setIncludeDiagram(!includeDiagram)}
-        />
-        <Toggle
-          label="Include Charts"
-          checked={includeChart}
-          onChange={() => setIncludeChart(!includeChart)}
-        />
+      <div className='space-y-4'>
+        {/* Revision Mode with description */}
+        <div className='bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4'>
+          <Toggle label="Exam Revision Mode" checked={revisionMode} onChange={() => setRevisionMode(!revisionMode)} />
+          <p className='text-xs text-gray-300 mt-2 ml-1'>
+            {revisionMode 
+              ? "🔹 ON: Generates short, quick revision notes (5-min read)" 
+              : "🔹 OFF: Generates detailed, comprehensive notes (800-1200 words) with MCQ quiz"}
+          </p>
+        </div>
+        
+        {/* Other toggles */}
+        <div className='flex flex-col md:flex-row gap-6'>
+          <Toggle
+            label="Include Diagram"
+            checked={includeDiagram}
+            onChange={() => setIncludeDiagram(!includeDiagram)}
+          />
+          <Toggle
+            label="Include Charts"
+            checked={includeChart}
+            onChange={() => setIncludeChart(!includeChart)}
+          />
+        </div>
       </div>
 
       <motion.button

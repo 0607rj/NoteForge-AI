@@ -6,10 +6,13 @@ import axios from 'axios'
 import { serverUrl } from '../App'
 import { setUserData } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
+import { useTheme } from '../context/ThemeContext'
+import { IoMoon, IoSunny } from "react-icons/io5"
 
 function Navbar() {
     const { userData } = useSelector((state) => state.user)
     const [showProfile,setShowProfile] = useState(false)
+    const { isDark, toggleTheme } = useTheme()
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const handleSignOut = async () => {
@@ -44,6 +47,21 @@ function Navbar() {
             </div>
 
             <div className='flex items-center gap-6 relative'>
+                 {/* Dark Mode Toggle */}
+                 <motion.button
+                    onClick={toggleTheme}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    className='flex items-center justify-center
+                    w-10 h-10 rounded-full
+                    bg-white/10
+                    border border-white/20
+                    text-white text-xl
+                    hover:bg-white/20
+                    transition-colors'>
+                    {isDark ? <IoSunny /> : <IoMoon />}
+                </motion.button>
+
                  <div className='relative'>
 
                     <motion.div

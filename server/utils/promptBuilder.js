@@ -36,25 +36,27 @@ GLOBAL CONTENT RULES:
 
 REVISION MODE RULES (CRITICAL):
 - If REVISION MODE is ON:
-  - Notes must be VERY SHORT
-  - Only bullet points
-  - One-line answers only
-  - Definitions, formulas, keywords
-  - No paragraphs
-  - No explanations
-  - Content must feel like:
-    - last-day revision
-    - 5-minute exam cheat sheet
+  - Notes must be SHORT and quick
+  - Focus on bullet points
+  - Key definitions, formulas, keywords
+  - No long paragraphs
+  - Content must feel like last-minute revision cheat sheet
   - revisionPoints MUST summarize ALL important facts
 
 - If REVISION MODE is OFF:
-  - Notes must be DETAILED but exam-focused
-  - Each topic should include:
-    - definition
-    - short explanation
-    - examples (if applicable)
-  - Paragraph length: max 2–4 lines
-  - No storytelling, no extra theory
+  - Notes must be COMPREHENSIVE and DETAILED
+  - Each major concept should include:
+    - Clear definition with context
+    - Detailed explanation (3-5 sentences minimum)
+    - Real-world examples when applicable
+    - Step-by-step breakdown for processes
+    - Key points and takeaways
+  - Use proper headings (##, ###) to organize content
+  - Include multiple paragraphs per section
+  - Aim for AT LEAST 800-1200 words of content
+  - Break down complex topics into digestible sections
+  - Use markdown formatting: **bold** for important terms, bullet points for lists
+  - Add context about why this topic is important for exams
 
 IMPORTANCE RULES:
 - Divide sub-topics into THREE categories:
@@ -116,12 +118,29 @@ STRICT JSON FORMAT (DO NOT CHANGE):
     "long": [],
     "diagram": ""
   },
+  "mcqs": [
+    {
+      "question": "string",
+      "options": ["A", "B", "C", "D"],
+      "correct": 0,
+      "explanation": "string"
+    }
+  ],
   "diagram": {
     "type": "flowchart | graph | process",
     "data": ""
   },
   "charts": []
 }
+
+MCQ GENERATION RULES:
+- Generate AT LEAST 5-10 multiple choice questions
+- Questions should test understanding, not just memory
+- Include 4 options (A, B, C, D) for each question
+- 'correct' is the index (0, 1, 2, or 3) of the correct answer
+- Add a brief explanation for why the answer is correct
+- Cover all important concepts from the notes
+- Mix difficulty levels (easy, medium, hard)
 
 RETURN ONLY VALID JSON.
 `;

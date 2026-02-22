@@ -3,29 +3,31 @@ import ReactMarkdown from 'react-markdown'
 import MermaidSetup from './MermaidSetup';
 import RechartSetUp from './RechartSetUp';
 import { downloadPdf } from '../services/api';
+import QuizMode from './QuizMode';
+import NoteEditor from './NoteEditor';
 const markDownComponent = {
     h1: ({ children }) => (
-        <h1 className="text-2xl font-bold text-indigo-700 mt-6 mb-4 border-b pb-2">
+        <h1 className="text-2xl font-bold text-indigo-700 dark:text-indigo-400 mt-6 mb-4 border-b pb-2 dark:border-gray-700">
             {children}
         </h1>
     ),
     h2: ({ children }) => (
-        <h2 className="text-xl font-semibold text-indigo-600 mt-5 mb-3">
+        <h2 className="text-xl font-semibold text-indigo-600 dark:text-indigo-500 mt-5 mb-3">
             {children}
         </h2>
     ),
     h3: ({ children }) => (
-        <h3 className="text-lg font-semibold text-gray-800 mt-4 mb-2">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-2">
             {children}
         </h3>
     ),
     p: ({ children }) => (
-        <p className="text-gray-700 leading-relaxed mb-3">
+        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
             {children}
         </p>
     ),
     ul: ({ children }) => (
-        <ul className="list-disc ml-6 space-y-1 text-gray-700">
+        <ul className="list-disc ml-6 space-y-1 text-gray-700 dark:text-gray-300">
             {children}
         </ul>
     ),
@@ -35,6 +37,13 @@ const markDownComponent = {
 }
 function FinalResult({ result }) {
     const [quickRevision, setQuickRevision] = useState(false);
+    const [activeTab, setActiveTab] = useState('notes'); // 'notes' or 'quiz'
+    const [editedNotes, setEditedNotes] = useState(result.notes);
+    
+    const handleNoteSave = (newContent) => {
+        setEditedNotes(newContent);
+    };
+    
     if (
         !result ||
         !result.subTopics ||
@@ -47,7 +56,50 @@ function FinalResult({ result }) {
     }
 
     return (
-        <div className='mt-6 p-3 space-y-10 bg-white'>
+        <div className='mt-6 p-3 space-y-10 bg-white dark:bg-gray-800 transition-colors duration-300'>
+            {/* Info Banner */}
+            {(!result.mcqs || result.mcqs.length === 0) && (
+                <div className='bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-xl p-4 text-sm'>
+                    <p className='text-yellow-800 dark:text-yellow-200 flex items-center gap-2'>
+                        <span className='text-xl'>⚠️</span>
+                        <span>
+                            <strong>Quick Revision Mode:</strong> These notes are concise for fast review. 
+                            For detailed notes (800-1200 words) with interactive quiz questions, turn OFF "Exam Revision Mode" when generating.
+                        </span>
+                    </p>
+                </div>
+            )}
+            
+            {/* Tab Navigation */}
+            <div className='flex gap-4 border-b border-gray-300 dark:border-gray-700 mb-6'>
+                <button
+                    onClick={() => setActiveTab('notes')}
+                    className={`px-6 py-3 font-semibold transition-colors relative
+                        ${activeTab === 'notes' 
+                            ? 'text-indigo-600 dark:text-indigo-400 border-b-4 border-indigo-600 dark:border-indigo-400' 
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+                    📝 Notes
+                </button>
+                <button
+                    onClick={() => setActiveTab('quiz')}
+                    className={`px-6 py-3 font-semibold transition-colors relative flex items-center gap-2
+                        ${activeTab === 'quiz' 
+                            ? 'text-indigo-600 dark:text-indigo-400 border-b-4 border-indigo-600 dark:border-indigo-400' 
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'}`}>
+                    🧠 Practice Quiz
+                    {result.mcqs && result.mcqs.length > 0 && (
+                        <span className='bg-indigo-600 text-white text-xs px-2 py-1 rounded-full'>
+                            {result.mcqs.length}
+                        </span>
+                    )}
+                </button>
+            </div>
+
+            {/* Content based on active tab */}
+            {activeTab === 'quiz' ? (
+                <QuizMode mcqs={result.mcqs || []} />
+            ) : (
+            <div>
 
             <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
 
@@ -96,12 +148,11 @@ function FinalResult({ result }) {
 
             {!quickRevision && <section>
                 <SectionHeader icon="📝" title="Detailed Notes" color="purple" />
-                <div className='bg-white border border-gray-200 rounded-xl p-6'>
-                    <ReactMarkdown components={markDownComponent}>
-                        {result.notes}
-
-                    </ReactMarkdown>
-                </div>
+                <NoteEditor 
+                    initialNotes={editedNotes} 
+                    onSave={handleNoteSave} 
+                    markDownComponent={markDownComponent}
+                />
             </section>}
 
 
@@ -165,13 +216,15 @@ function FinalResult({ result }) {
                         <li key={i}>{q}</li>
                     ))}
                 </ul>
-                <p className='font-medium mt-4'>Diagram Question:</p>
-                <ul className='list-disc ml-6 text-gray-700'>
+                <p className='font-medium mt-4 dark:text-gray-200'>Diagram Question:</p>
+                <ul className='list-disc ml-6 text-gray-700 dark:text-gray-300'>
                     <li>{result.questions.diagram}</li>
                 </ul>
 
             </section>
 
+            </div>
+            )}
         </div>
     )
 }
