@@ -45,3 +45,35 @@ export const downloadPdf = async (result) => {
 
     }
 }
+
+export const summarizeYouTube = async (payload) => {
+    try {
+        const result = await axios.post(serverUrl+ "/api/tools/youtube-summarize" , payload , {withCredentials:true})
+        return result.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const transcribeVoice = async (formData) => {
+    try {
+        const result = await axios.post(serverUrl+ "/api/tools/voice-transcribe" , formData , {
+            withCredentials:true,
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        return result.data
+    } catch (error) {
+        throw error
+    }
+}
+
+export const generateFormulaSheet = async (payload) => {
+    try {
+        const result = await axios.post(serverUrl+ "/api/tools/formula-sheet" , payload , {withCredentials:true})
+        return result.data
+    } catch (error) {
+        throw error
+    }
+}

@@ -97,8 +97,51 @@ function Home() {
 
       </section>
 
-      {/* bottom */}
-      <section className='max-w-6xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-4 gap-10'>
+      {/* AI Tools Section */}
+      <section className='max-w-7xl mx-auto px-8 py-20'>
+        <div className='text-center mb-16'>
+          <h2 className='text-4xl font-bold bg-gradient-to-r from-black via-gray-700 to-black bg-clip-text text-transparent mb-4'>
+            Powerful AI Study Tools
+          </h2>
+          <p className='text-gray-600 text-lg'>
+            Everything you need to ace your exams in one place
+          </p>
+        </div>
+
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6'>
+          <ToolCard 
+            icon="📘" 
+            title="Notes Generator" 
+            description="Generate detailed exam notes with quiz questions"
+            path="/notes"
+            gradient="from-blue-500 to-indigo-600"
+          />
+          <ToolCard 
+            icon="🎥" 
+            title="YouTube Summarizer" 
+            description="Turn YouTube lectures into structured notes"
+            path="/youtube"
+            gradient="from-red-500 to-pink-600"
+          />
+          <ToolCard 
+            icon="🎙️" 
+            title="Voice to Notes" 
+            description="Record lectures and convert to text notes"
+            path="/voice"
+            gradient="from-purple-500 to-violet-600"
+          />
+          <ToolCard 
+            icon="🧮" 
+            title="Formula Sheet" 
+            description="Extract all formulas into one PDF sheet"
+            path="/formulas"
+            gradient="from-green-500 to-emerald-600"
+          />
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className='max-w-6xl mx-auto px-8 py-20 grid grid-cols-1 md:grid-cols-4 gap-10'>
         <Feature icon="📘" title="Exam Notes" des="High-yield exam-oriented notes with revision points."/>
         <Feature icon="📂" title="Project Notes" des="Well-structured content for assignments and projects." />
         <Feature icon="📊" title="Diagrams" des="Auto-generated visual diagrams for clarity." />
@@ -136,6 +179,35 @@ function Feature({icon , title , des}){
 
         </motion.div>
     )
+}
+
+function ToolCard({ icon, title, description, path, gradient }) {
+  const navigate = useNavigate()
+  
+  return (
+    <motion.div
+      whileHover={{ y: -8, scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      onClick={() => navigate(path)}
+      className='relative rounded-2xl p-6 cursor-pointer
+        bg-white border border-gray-200
+        shadow-lg hover:shadow-2xl
+        transition-all duration-300
+        group overflow-hidden'
+    >
+      {/* Gradient overlay on hover */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+      
+      <div className='relative z-10'>
+        <div className="text-5xl mb-4">{icon}</div>
+        <h3 className="text-xl font-bold mb-2 text-gray-900">{title}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed mb-4">{description}</p>
+        <div className={`inline-flex items-center gap-2 text-sm font-semibold bg-gradient-to-r ${gradient} bg-clip-text text-transparent`}>
+          Try it now →
+        </div>
+      </div>
+    </motion.div>
+  )
 }
 
 export default Home

@@ -7,6 +7,7 @@ import cors from "cors"
 import userRouter from "./routes/user.route.js"
 import notesRouter from "./routes/genrate.route.js"
 import pdfRouter from "./routes/pdf.route.js"
+import toolsRouter from "./routes/tools.route.js"
 dotenv.config()
 
 
@@ -50,6 +51,7 @@ app.use("/api/auth" , authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/notes", notesRouter)
 app.use("/api/pdf", pdfRouter)
+app.use("/api/tools", toolsRouter)
 
 
 
