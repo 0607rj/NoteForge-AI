@@ -1,6 +1,6 @@
 import Notes from "../models/notes.model.js"
 import UserModel from "../models/user.model.js"
-import { generateGeminiResponse } from "../services/gemini.services.js"
+import { generateAIResponse } from "../services/ai.services.js"
 import { buildPrompt } from "../utils/promptBuilder.js"
 
 export const generateNotes = async (req, res) => {
@@ -29,7 +29,7 @@ export const generateNotes = async (req, res) => {
         })
 
 
-        const aiResponse = await generateGeminiResponse(prompt)
+        const aiResponse = await generateAIResponse(prompt)
    
 
         const notes = await Notes.create({

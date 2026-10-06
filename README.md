@@ -46,7 +46,7 @@ Backend:
 - PDFKit
 
 AI Integration:
-- Gemini API (via backend service)
+- Grok API (xAI) or Groq, via an OpenAI-compatible backend service
 
 ## Project Structure
 
@@ -63,7 +63,7 @@ AI Integration:
 - npm 9+
 - MongoDB connection string
 - Firebase project (for Google auth)
-- Gemini API key
+- Grok API key (xAI `xai-...` or Groq `gsk_...`)
 - Stripe keys (for payment flow)
 
 ## Local Setup
@@ -100,7 +100,7 @@ PORT=5000
 MONGODB_URL=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 CLIENT_URL=http://localhost:5173
-GEMINI_API_KEY=your_gemini_api_key
+GROK_API_KEY=your_grok_api_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 STRIPE_WEBHOOK_SECRET=your_stripe_webhook_secret
 ```

@@ -1,6 +1,6 @@
 import Notes from "../models/notes.model.js"
 import UserModel from "../models/user.model.js"
-import { generateGeminiResponse } from "../services/gemini.services.js"
+import { generateAIResponse } from "../services/ai.services.js"
 import { buildPrompt } from "../utils/promptBuilder.js"
 
 // YouTube Video Summarizer
@@ -79,7 +79,7 @@ For now, acknowledge that this is a demonstration of the feature structure.
 RETURN ONLY VALID JSON.
 `;
 
-        const aiResponse = await generateGeminiResponse(prompt);
+        const aiResponse = await generateAIResponse(prompt);
 
         // Save to database
         const notes = await Notes.create({
@@ -188,7 +188,7 @@ NOTE: In production, this would use Speech-to-Text API to transcribe actual audi
 RETURN ONLY VALID JSON.
 `;
 
-        const aiResponse = await generateGeminiResponse(prompt);
+        const aiResponse = await generateAIResponse(prompt);
 
         const notes = await Notes.create({
             user: user?._id,
@@ -286,7 +286,7 @@ Make it comprehensive and exam-ready.
 RETURN ONLY VALID JSON.
 `;
 
-        const aiResponse = await generateGeminiResponse(prompt);
+        const aiResponse = await generateAIResponse(prompt);
 
         const notes = await Notes.create({
             user: user?._id,

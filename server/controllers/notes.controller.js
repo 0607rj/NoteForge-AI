@@ -3,7 +3,7 @@ import Notes from "../models/notes.model.js"
 
 export const getMyNotes = async (req, res) => {
     try {
-        const userId = req.body.userId || req.query.userId;
+        const userId = req.body?.userId || req.query.userId;
         if (!userId) {
             return res.status(400).json({ message: "User ID is required" });
         }
@@ -22,7 +22,7 @@ export const getMyNotes = async (req, res) => {
 
 export const getSingleNotes = async (req, res) => {
     try {
-        const userId = req.body.userId || req.query.userId;
+        const userId = req.body?.userId || req.query.userId;
         const notes = await Notes.findOne({
             _id: req.params.id,
             ...(userId && { user: userId })
