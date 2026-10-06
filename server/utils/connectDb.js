@@ -1,12 +1,15 @@
 import mongoose from "mongoose";
 
+mongoose.connection.on("disconnected", () => console.log("⚠️ DB Disconnected"))
+mongoose.connection.on("reconnected", () => console.log("✅ DB Reconnected"))
+
 const connectDb = async () => {
-    try {
-        await mongoose.connect(process.env.MONGODB_URL)
-        console.log("✅ DB Connected")
-    } catch (error) {
-        console.log("❌ DB Error:", error.message)
-        console.log("Please check your MONGODB_URL in .env file")
+    if (!process.env.MONGODB_URL) {
+        throw new Error("MONGODB_URL is not set in .env file")
     }
+    await mongoose.connect(process.env.MONGODB_URL, {
+        serverSelectionTimeoutMS: 10000
+    })
+    console.log(`✅ DB Connected (${mongoose.connection.name})`)
 }
 export default connectDb

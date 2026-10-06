@@ -55,7 +55,14 @@ app.use("/api/tools", toolsRouter)
 
 
 
-app.listen(PORT,()=>{
-    console.log(`✅ Server running on port ${PORT}`)
-    connectDb()
-})
+connectDb()
+    .then(() => {
+        app.listen(PORT,()=>{
+            console.log(`✅ Server running on port ${PORT}`)
+        })
+    })
+    .catch((error) => {
+        console.log("❌ DB Error:", error.message)
+        console.log("Please check your MONGODB_URL in .env file")
+        process.exit(1)
+    })
