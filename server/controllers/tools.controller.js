@@ -12,13 +12,10 @@ export const summarizeYouTube = async (req, res) => {
             return res.status(400).json({ message: "YouTube URL is required" })
         }
 
-        // Extract video ID from URL
-        let videoId;
-        if (youtubeUrl.includes('youtube.com/watch?v=')) {
-            videoId = youtubeUrl.split('v=')[1]?.split('&')[0];
-        } else if (youtubeUrl.includes('youtu.be/')) {
-            videoId = youtubeUrl.split('youtu.be/')[1]?.split('?')[0];
-        }
+        // Extract video ID from watch, Shorts, youtu.be, embed and live URLs
+        const videoId = youtubeUrl.trim().match(
+            /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/|v\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
+        )?.[1];
 
         if (!videoId) {
             return res.status(400).json({ message: "Invalid YouTube URL" })

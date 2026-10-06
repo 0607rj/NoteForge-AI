@@ -88,12 +88,12 @@ function YouTubeSummarizer() {
               <input
                 type="text"
                 className='w-full p-4 rounded-xl bg-white/10 backdrop-blur-lg border border-white/20 placeholder-gray-300 text-white focus:outline-none focus:ring-2 focus:ring-white/30'
-                placeholder='https://www.youtube.com/watch?v=...'
+                placeholder='https://www.youtube.com/watch?v=... or /shorts/...'
                 value={youtubeUrl}
                 onChange={(e) => setYoutubeUrl(e.target.value)}
               />
               <p className='text-xs text-white/70 mt-2'>
-                Paste any YouTube video URL (lectures, tutorials, educational content)
+                Paste any YouTube video or Shorts URL (lectures, tutorials, educational content)
               </p>
             </div>
 

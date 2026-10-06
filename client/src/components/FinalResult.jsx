@@ -7,33 +7,76 @@ import QuizMode from './QuizMode';
 import NoteEditor from './NoteEditor';
 const markDownComponent = {
     h1: ({ children }) => (
-        <h1 className="text-2xl font-bold text-indigo-700 dark:text-indigo-400 mt-6 mb-4 border-b pb-2 dark:border-gray-700">
+        <h1 className="text-2xl font-bold text-indigo-700 dark:text-indigo-300 mt-6 mb-4 border-b border-gray-200 pb-2 dark:border-gray-700">
             {children}
         </h1>
     ),
     h2: ({ children }) => (
-        <h2 className="text-xl font-semibold text-indigo-600 dark:text-indigo-500 mt-5 mb-3">
+        <h2 className="text-xl font-semibold text-indigo-700 dark:text-indigo-300 mt-6 mb-3">
             {children}
         </h2>
     ),
     h3: ({ children }) => (
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mt-4 mb-2">
             {children}
         </h3>
     ),
+    h4: ({ children }) => (
+        <h4 className="font-semibold text-gray-900 dark:text-gray-100 mt-3 mb-2">
+            {children}
+        </h4>
+    ),
     p: ({ children }) => (
-        <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+        <p className="text-gray-800 dark:text-gray-200 leading-relaxed mb-3">
             {children}
         </p>
     ),
     ul: ({ children }) => (
-        <ul className="list-disc ml-6 space-y-1 text-gray-700 dark:text-gray-300">
+        <ul className="list-disc ml-6 mb-3 space-y-1 text-gray-800 dark:text-gray-200">
             {children}
         </ul>
     ),
-    li: ({ children }) => (
-        <li className="marker:text-indigo-500">{children}</li>
+    ol: ({ children }) => (
+        <ol className="list-decimal ml-6 mb-3 space-y-1 text-gray-800 dark:text-gray-200">
+            {children}
+        </ol>
     ),
+    li: ({ children }) => (
+        <li className="leading-relaxed marker:text-indigo-500 dark:marker:text-indigo-300">{children}</li>
+    ),
+    strong: ({ children }) => (
+        <strong className="font-semibold text-gray-900 dark:text-white">{children}</strong>
+    ),
+    a: ({ children, href }) => (
+        <a href={href} target="_blank" rel="noreferrer" className="text-indigo-600 dark:text-indigo-300 underline">{children}</a>
+    ),
+    blockquote: ({ children }) => (
+        <blockquote className="border-l-4 border-indigo-400 bg-indigo-50 dark:bg-indigo-950/40 px-4 py-2 my-3 rounded-r-lg text-gray-800 dark:text-gray-200">
+            {children}
+        </blockquote>
+    ),
+    code: ({ children }) => (
+        <code className="bg-gray-100 dark:bg-gray-900 text-pink-700 dark:text-pink-300 px-1.5 py-0.5 rounded font-mono text-sm">
+            {children}
+        </code>
+    ),
+    pre: ({ children }) => (
+        <pre className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg overflow-x-auto mb-3 [&>code]:bg-transparent [&>code]:p-0">
+            {children}
+        </pre>
+    ),
+    table: ({ children }) => (
+        <div className="overflow-x-auto mb-4">
+            <table className="w-full border-collapse text-sm text-gray-800 dark:text-gray-200">{children}</table>
+        </div>
+    ),
+    th: ({ children }) => (
+        <th className="border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 px-3 py-2 text-left font-semibold">{children}</th>
+    ),
+    td: ({ children }) => (
+        <td className="border border-gray-300 dark:border-gray-600 px-3 py-2">{children}</td>
+    ),
+    hr: () => <hr className="my-6 border-gray-200 dark:border-gray-700" />,
 }
 function FinalResult({ result }) {
     const [quickRevision, setQuickRevision] = useState(false);
@@ -104,7 +147,7 @@ function FinalResult({ result }) {
             <div className='flex flex-col md:flex-row md:items-center md:justify-between gap-4'>
 
                 <h2 className='text-3xl font-bold
-          bg-gradient-to-r from-indigo-600 to-purple-600
+          bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-300 dark:to-purple-300
           bg-clip-text text-transparent'>
                     📘 Generated Notes
                 </h2>
@@ -114,7 +157,7 @@ function FinalResult({ result }) {
               px-4 py-2 rounded-lg text-sm font-medium transition
               ${quickRevision
                             ? "bg-green-600 text-white"
-                            : "bg-green-100 text-green-700 hover:bg-green-200"}
+                            : "bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/50 dark:text-green-200 dark:hover:bg-green-900"}
             `}>  {quickRevision ? "Exit Revision Mode" : "Quick Revision (5 min)"}</button>
                     <button onClick={()=>downloadPdf(result)}
                     className='px-4 py-2 rounded-lg text-sm font-medium bg-indigo-600 text-white hover:bg-indigo-700'>
@@ -132,10 +175,10 @@ function FinalResult({ result }) {
                         <div key={star} className='mb-3
               '>
 
-                            <p className='font-medium text-indigo-600 mb-1'>
+                            <p className='font-medium text-indigo-700 dark:text-indigo-300 mb-1'>
                                 {star} Priority
                             </p>
-                            <ul className='list-disc ml-6 text-gray-700'>
+                            <ul className='list-disc ml-6 space-y-1 text-gray-800 dark:text-gray-200'>
                                 {topics.map((t, i) => (
                                     <li key={i}>{t}</li>
                                 ))}
@@ -157,11 +200,11 @@ function FinalResult({ result }) {
 
 
             {quickRevision &&
-                <section className='rounded-xl bg-gradient-to-r from-green-100 to-green-50 border border-green-200 p-6'>
-                    <h3 className='font-bold text-green-700 mb-3 text-lg'>
+                <section className='rounded-xl bg-gradient-to-r from-green-100 to-green-50 dark:from-green-950/60 dark:to-gray-800 border border-green-200 dark:border-green-800 p-6'>
+                    <h3 className='font-bold text-green-700 dark:text-green-300 mb-3 text-lg'>
                         ⚡ Exam Quick Revision Points
                     </h3>
-                    <ul className='list-disc ml-6 space-y-1 text-gray-800'>
+                    <ul className='list-disc ml-6 space-y-1 text-gray-800 dark:text-gray-200'>
                         {result.revisionPoints.map((p, i) => (
                             <li key={i}>{p}</li>
                         ))}
@@ -173,7 +216,7 @@ function FinalResult({ result }) {
                 <SectionHeader icon="📊" title="Diagram" color="cyan" />
 
                 <MermaidSetup diagram={result.diagram?.data} />
-                <p className="mt-3 text-xs text-gray-500 italic">
+                <p className="mt-3 text-xs text-gray-600 dark:text-gray-400 italic">
                     ℹ️ If you need this diagram for future reference or revision,
                     you can save it by taking a screenshot.
                 </p>
@@ -185,7 +228,7 @@ function FinalResult({ result }) {
                 <section>
                     <SectionHeader icon="📈" title="Visual Charts" color="indigo" />
                     <RechartSetUp charts={result.charts} />
-                    <p className="mt-3 text-xs text-gray-500 italic">
+                    <p className="mt-3 text-xs text-gray-600 dark:text-gray-400 italic">
                         ℹ️ If you need this Chart for future reference or revision,
                         you can save it by taking a screenshot.
                     </p>
@@ -193,7 +236,7 @@ function FinalResult({ result }) {
                 </section>}
 
             {result.charts && result.charts.length === 0 && (
-                <p className="text-sm text-gray-400 italic">
+                <p className="text-sm text-gray-500 dark:text-gray-400 italic">
                     📉 Charts are not relevant for this topic.
                 </p>
             )}
@@ -202,22 +245,22 @@ function FinalResult({ result }) {
             <section>
                 <SectionHeader icon="❓" title="Important Questions" color="rose" />
 
-                <p className='font-medium'>Short Questions:</p>
-                <ul className='list-disc ml-6 text-gray-700'>
+                <p className='font-semibold text-gray-900 dark:text-gray-100'>Short Questions:</p>
+                <ul className='list-disc ml-6 space-y-1 text-gray-800 dark:text-gray-200'>
                     {result.questions.short.map((q, i) => (
                         <li key={i}>{q}</li>
                     ))}
                 </ul>
 
 
-                <p className='font-medium mt-4'>Long Questions:</p>
-                <ul className='list-disc ml-6 text-gray-700'>
+                <p className='font-semibold mt-4 text-gray-900 dark:text-gray-100'>Long Questions:</p>
+                <ul className='list-disc ml-6 space-y-1 text-gray-800 dark:text-gray-200'>
                     {result.questions.long.map((q, i) => (
                         <li key={i}>{q}</li>
                     ))}
                 </ul>
-                <p className='font-medium mt-4 dark:text-gray-200'>Diagram Question:</p>
-                <ul className='list-disc ml-6 text-gray-700 dark:text-gray-300'>
+                <p className='font-semibold mt-4 text-gray-900 dark:text-gray-100'>Diagram Question:</p>
+                <ul className='list-disc ml-6 text-gray-800 dark:text-gray-200'>
                     <li>{result.questions.diagram}</li>
                 </ul>
 

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Dark mode follows the in-app toggle (.dark on <html>), not the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   scrollbar-width: none;        /* Firefox */
   -ms-overflow-style: none;     /* IE / Edge */
